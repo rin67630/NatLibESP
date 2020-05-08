@@ -7,9 +7,13 @@ I really got sick about the high amount of libraries apparently doing (more or l
 I decided to reconsider the problem and provide only an extensive code example that can be used by everybody to build on their own code. The solution must be fully portable and run on Espressifs ESP32 and ESP8266 based boards without modification. The solution must:
 
 -provide the Posix methods to deal with dates and strings and compute time differences
+
 -provide examples for serial, but also examples for working with text buffers as being used for displays or communication protocols.
+
 -provide the usual variables Second, Minute, Hour, Day, Month, Year as integers, DayName and MonthName as char arrays.
+
 -be able to run a certain time off-line and periodically synchronize with NTP.
+
 -provide the following subroutines: void getWiFi() void getNTP() void getEpoch() void getTimeData()
 
 The code uses only the libs delivered on-board from Espressif.
