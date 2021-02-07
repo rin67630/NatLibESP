@@ -94,6 +94,43 @@ void getEpoch()
   now = time(nullptr);
   Epoch = now;
 }
+
+void inputTime()
+{
+    if (Serial.available() > 0)
+    {
+      // read in the user input
+      Day = Serial.parseInt();
+      Month = Serial.parseInt();
+      Year = Serial.parseInt();
+      Hour = Serial.parseInt();
+      Minute = Serial.parseInt();
+      Second = Serial.parseInt();
+      boolean validDate = (inRange(Day, 1, 31) && inRange(Month, 1, 12) && inRange(Year, 2021, 2031));
+      boolean validTime = (inRange(Hour, 0, 23) && inRange(Minute, 0, 59) && inRange(Second, 0, 59));
+      if (validTime && validDate)
+      {
+        configTime(0, 0, "pool.ntp.org");    // Repair timezone
+        setenv("TZ", "CET-1CEST,M3.5.0,M10.5.0/3", 3);
+        tzset();        
+        struct tm t;                         //Prepare time strucure
+        time_t t_of_day;
+        t.tm_year = Year - 1900; // Year - 1900
+        t.tm_mon = Month - 1;     // Month, where 0 = jan
+        t.tm_mday = Day ;      // Day of the month
+        t.tm_hour = Hour;
+        t.tm_min = Minute;
+        t.tm_sec = Second;
+        t.tm_isdst = -1;         // Is DST on? 1 = yes, 0 = no, -1 = unknown
+        t_of_day = mktime(&t);
+        struct timeval tv;                   //Extending to mandatory microseconds
+        tv.tv_sec = t_of_day;  // epoch time (seconds)
+        tv.tv_usec = 0;    // microseconds
+        settimeofday(&tv, 0);                //Setting Clock
+      }
+    }
+}
+
 void getTimeData()
 {
   timeinfo  = localtime(&now);  // cf: https://www.cplusplus.com/reference/ctime/localtime/
@@ -126,6 +163,7 @@ void reConnect()
     //    Serial.print(".");
   }
 }
+
 
 void setup()
 {
