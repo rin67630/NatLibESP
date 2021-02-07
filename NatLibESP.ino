@@ -95,7 +95,7 @@ void getEpoch()
   Epoch = now;
 }
 
-void inputTime()
+void setTimefromSerial()
 {
     if (Serial.available() > 0)
     {
